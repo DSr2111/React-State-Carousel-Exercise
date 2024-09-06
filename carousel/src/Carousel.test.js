@@ -13,6 +13,18 @@ test("matches Carousel snapshot", () => {
   expect(asFragment()).toMatchSnapshot();
 });
 
+// Left Arrow Bug
+test("left arrow moves to previous image", () => {
+  const { getByTestId } = render(<Carousel />);
+
+  // Assume that the second image is currently active
+  fireEvent.click(getByTestId("right-arrow")); // Move to the second image
+  fireEvent.click(getByTestId("left-arrow")); // Now test moving back to the first image
+
+  // Check if the first image is displayed after clicking the left arrow
+  expect(getByTestId("image-0")).toBeInTheDocument();
+});
+
 it("works when you click on the right arrow", function () {
   const { container } = render(
     <Carousel photos={TEST_IMAGES} title="images for testing" />
